@@ -1,0 +1,1 @@
+enum Sender { user, chatty }
