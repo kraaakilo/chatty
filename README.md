@@ -1,16 +1,11 @@
-# chatty
+# Chatty Flutter App
 
-Consumer for ChatGPT API
+Chatty is a simple chat application using the OpenAI completion api to provide answers to simple user questions with a simple, basic interface and functionality.
 
-## Getting Started
+Here is an example of App state.
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Screenshots
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![App Screenshot](https://i.ibb.co/zPgs8X1/Screenshot-20230205-192206.jpg)
