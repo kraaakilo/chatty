@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:chatty/private/keys.dart';
 import 'package:http/http.dart' as http;
 
 class OpenAi {
@@ -9,7 +10,7 @@ class OpenAi {
       var response = await http.post(uri,
           headers: {
             "Authorization":
-                "Bearer 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",
+                "Bearer $apiKey",//Replace with apiKey
             'Content-type': 'application/json',
             'Accept': 'application/json',
           },
