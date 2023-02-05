@@ -1,11 +1,20 @@
+import 'package:chatty/api/openai.dart';
 import 'package:chatty/components/SingleMessageComponent.dart';
-import 'package:chatty/data/db.dart';
+import 'package:chatty/data/sender.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'components/Test.dart';
+import 'data/chat.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(
-    const MaterialApp(
-      home: Chatty(),
+    MaterialApp(
+      theme: ThemeData(
+        primarySwatch: Colors.lightBlue,
+        textTheme: GoogleFonts.latoTextTheme(),
+      ),
+      home: const Chatty(),
     ),
   );
 }
@@ -18,6 +27,17 @@ class Chatty extends StatefulWidget {
 }
 
 class _ChattyState extends State<Chatty> {
+  final TextEditingController _editingController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+  List<Chat> chats = [];
+
+  void addChat(String content, Sender sender) {
+    Chat chat = Chat(sender: sender, content: content);
+    setState(() {
+      chats.add(chat);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,12 +72,17 @@ class _ChattyState extends State<Chatty> {
                 width: double.infinity,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: ListView.builder(
-                      itemBuilder: (context, index) {
-                        return SingleMessageComponent(
-                            chat: chatsDatabase[index]);
-                      },
-                      itemCount: chatsDatabase.length),
+                  child: chats.isEmpty
+                      ? const Center(
+                          child: Text("Aucun message disponible"),
+                        )
+                      : ListView.builder(
+                          controller: _scrollController,
+                          itemBuilder: (context, index) {
+                            // return LoadingChat();
+                            return SingleMessageComponent(chat: chats[index]);
+                          },
+                          itemCount: chats.length),
                 ),
               ),
             ),
@@ -69,18 +94,37 @@ class _ChattyState extends State<Chatty> {
               children: [
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.85,
-                  child: const TextField(
-                    decoration: InputDecoration(
+                  child: TextField(
+                    controller: _editingController,
+                    decoration: const InputDecoration(
                       hintText: "Tapez un Message",
                       contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                      border: InputBorder.none,
                       hintStyle: TextStyle(),
                       // border: OutlineInputBorder()
                     ),
                   ),
                 ),
-                const Expanded(
-                  child: Icon(Icons.send),
-                ),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () async {
+                      var content = _editingController.value.text;
+                      _editingController.clear();
+                      FocusScope.of(context).unfocus();
+                      if (content.isNotEmpty) {
+                        addChat(content, Sender.user);
+                        String result = await OpenAi.completion(content);
+                        addChat(result, Sender.chatty);
+                        _scrollController.animateTo(
+                          _scrollController.position.maxScrollExtent,
+                          duration: const Duration(seconds: 1),
+                          curve: Curves.easeInOut,
+                        );
+                      }
+                    },
+                    child: const Icon(Icons.send),
+                  ),
+                )
               ],
             ),
           ),

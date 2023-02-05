@@ -18,8 +18,8 @@ class _SingleMessageComponentState extends State<SingleMessageComponent> {
       children: [
         Row(
           mainAxisAlignment: widget.chat.sender == Sender.chatty
-              ? MainAxisAlignment.end
-              : MainAxisAlignment.start,
+              ? MainAxisAlignment.start
+              : MainAxisAlignment.end,
           children: [
             Stack(
               children: [
@@ -27,13 +27,13 @@ class _SingleMessageComponentState extends State<SingleMessageComponent> {
                   borderRadius: widget.chat.sender == Sender.chatty
                       ? const BorderRadius.only(
                           topLeft: Radius.circular(40),
-                          bottomLeft: Radius.circular(40),
                           topRight: Radius.circular(40),
+                          bottomRight: Radius.circular(40),
                         )
                       : const BorderRadius.only(
                           topLeft: Radius.circular(40),
+                          bottomLeft: Radius.circular(40),
                           topRight: Radius.circular(40),
-                          bottomRight: Radius.circular(40),
                         ),
                   child: Container(
                     padding: const EdgeInsets.symmetric(
@@ -41,9 +41,20 @@ class _SingleMessageComponentState extends State<SingleMessageComponent> {
                       horizontal: 20,
                     ),
                     // margin: const EdgeInsets.symmetric(vertical: 10),
-                    width: MediaQuery.of(context).size.width * 0.75,
-                    color: widget.chat.sender == Sender.chatty ? Colors.blue : Colors.grey,
-                    child: Text(widget.chat.content),
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width * 0.75
+                    ),
+                    color: widget.chat.sender == Sender.chatty
+                        ? Colors.grey
+                        : Colors.blue,
+                    child: Text(
+                      widget.chat.content,
+                      style: TextStyle(
+                        color: widget.chat.sender == Sender.chatty
+                            ? Colors.black
+                            : Colors.white,
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -52,8 +63,8 @@ class _SingleMessageComponentState extends State<SingleMessageComponent> {
         ),
         Row(
           mainAxisAlignment: widget.chat.sender == Sender.chatty
-              ? MainAxisAlignment.end
-              : MainAxisAlignment.start,
+              ? MainAxisAlignment.start
+              : MainAxisAlignment.end,
           children: const <Widget>[
             SizedBox(
               height: 20,
