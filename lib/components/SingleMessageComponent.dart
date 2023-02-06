@@ -1,3 +1,4 @@
+import 'package:chatty/components/Test.dart';
 import 'package:chatty/data/chat.dart';
 import 'package:chatty/data/sender.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class SingleMessageComponent extends StatefulWidget {
 class _SingleMessageComponentState extends State<SingleMessageComponent> {
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return widget.chat.content.isEmpty ? const LoadingChat() : Column(
       children: [
         Row(
           mainAxisAlignment: widget.chat.sender == Sender.chatty

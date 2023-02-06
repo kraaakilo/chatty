@@ -31,7 +31,7 @@ dependencies:
   http: ^0.13.5
   sqflite: ^2.2.4+1
   google_fonts: ^4.0.3
-  animations: ^2.0.7
+  flutter_animate: ^3.1.0
   flutter:
     sdk: flutter
 

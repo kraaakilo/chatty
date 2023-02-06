@@ -33,6 +33,7 @@ class _ChattyState extends State<Chatty> {
 
   void addChat(String content, Sender sender) {
     Chat chat = Chat(sender: sender, content: content);
+    bool isLoading = false;
     setState(() {
       chats.add(chat);
     });
@@ -79,7 +80,6 @@ class _ChattyState extends State<Chatty> {
                       : ListView.builder(
                           controller: _scrollController,
                           itemBuilder: (context, index) {
-                            // return LoadingChat();
                             return SingleMessageComponent(chat: chats[index]);
                           },
                           itemCount: chats.length),
@@ -113,8 +113,17 @@ class _ChattyState extends State<Chatty> {
                       FocusScope.of(context).unfocus();
                       if (content.isNotEmpty) {
                         addChat(content, Sender.user);
+
+                        setState(() {
+                          chats.add(const Chat(sender: Sender.chatty, content: ""));
+                        });
+
                         String result = await OpenAi.completion(content);
                         addChat(result, Sender.chatty);
+
+                        setState(() {
+                          chats.removeWhere((element) => element.content.isEmpty);
+                        });
                         _scrollController.animateTo(
                           _scrollController.position.maxScrollExtent,
                           duration: const Duration(seconds: 1),

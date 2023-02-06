@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class LoadingChat extends StatefulWidget {
   const LoadingChat({Key? key}) : super(key: key);
@@ -41,22 +42,23 @@ class _LoadingChatState extends State<LoadingChat> {
                     maxWidth: 60,
                   ),
                   color: Colors.grey,
-                  child: Stack(
+                  child: Row(
                     children: [
-                      Positioned(
-                        // duration: const Duration(seconds: 2),
-                        top: 255,
-                        left: 0,
-                        child: ClipRRect(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(5)),
-                          child: Container(
-                            width: 5,
-                            height: 5,
-                            color: Colors.white,
-                          ),
+                      ClipRRect(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(5)),
+                        child: Container(
+                          width: 5,
+                          height: 5,
+                          color: Colors.white,
                         ),
-                      ),
+                      )
+                          .animate(
+                            delay: 500.ms,
+                            onPlay: (controller) => controller.repeat(), // loop
+                          )
+                          .scale(delay: 500.ms, duration: 500.ms)
+                          .fadeIn(),
                       const SizedBox(
                         width: 2,
                       ),
@@ -68,7 +70,13 @@ class _LoadingChatState extends State<LoadingChat> {
                           height: 5,
                           color: Colors.white,
                         ),
-                      ),
+                      )
+                          .animate(
+                            delay: 700.ms,
+                            onPlay: (controller) => controller.repeat(), // loop
+                          )
+                          .scale(delay: 700.ms)
+                          .fadeIn(),
                       const SizedBox(
                         width: 2,
                       ),
@@ -80,7 +88,13 @@ class _LoadingChatState extends State<LoadingChat> {
                           height: 5,
                           color: Colors.white,
                         ),
-                      ),
+                      )
+                          .animate(
+                            delay: 500.ms,
+                            onPlay: (controller) => controller.repeat(), // loop
+                          )
+                          .scale(delay: 500.ms)
+                          .fadeIn(),
                     ],
                   ),
                 ),
