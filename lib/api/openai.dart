@@ -10,7 +10,7 @@ class OpenAi {
       var response = await http.post(uri,
           headers: {
             "Authorization":
-                "Bearer $apiKey",//Replace with apiKey
+                "Bearer $apiKey",//Replace with apiKey, Get it on openai.com website
             'Content-type': 'application/json',
             'Accept': 'application/json',
           },
